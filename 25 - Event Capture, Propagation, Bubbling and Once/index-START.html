@@ -1,45 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Understanding JavaScript's Capture</title>
-</head>
-<body class="bod">
+    <head>
+        <meta charset="UTF-8">
+        <title>Understanding JavaScript's Capture</title>
+    </head>
+    <body class="bod">
 
-  <div class="one">
-    <div class="two">
-      <div class="three">
-      </div>
-    </div>
-  </div>
+        <div class="one">
+            <div class="two">
+                <div class="three">
+                </div>
+            </div>
+        </div>
 
-<style>
-  html {
+        <style>
+html {
     box-sizing: border-box;
-  }
-  *, *:before, *:after { box-sizing: inherit; }
+}
+*, *:before, *:after { box-sizing: inherit; }
 
-  div {
+div {
     width:100%;
     padding:100px;
-  }
+}
 
   .one {
-    background: thistle;
+      background: thistle;
   }
 
   .two {
-    background:mistyrose;
+      background:mistyrose;
   }
 
   .three {
-    background:coral;
+      background:coral;
   }
-</style>
+        </style>
 
-<button></button>
-<script>
+        <button>Only Once!</button>
+        <script>
+const divs = document.querySelectorAll('div');
 
-</script>
-</body>
+function logText(e) {
+    console.log(this.classList.value);
+    e.stopPropagation(); //Stop bubbling
+}
+
+divs.forEach(div => div.addEventListener('click', logText, {
+    capture: false, //This is the default, anyway
+}));
+
+document.querySelector('button').addEventListener('click', () =>
+    console.log('You clicked me, but only once :)'), { once: true });
+        </script>
+    </body>
 </html>
